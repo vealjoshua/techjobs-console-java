@@ -76,12 +76,37 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            if (aValue.toUpperCase().contains(value.toUpperCase())) {
                 jobs.add(row);
             }
         }
 
         return jobs;
+    }
+
+    // Find a job by value or column
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+        // load data, if not already loaded
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> row : allJobs) {
+            if (searchFields(row, value))
+                jobs.add(row);
+        }
+
+        return jobs;
+    }
+
+    private static Boolean searchFields(HashMap<String, String> row, String value) {
+        for (Object key : row.keySet()) {
+            String aValue = row.get(key);
+
+            if (aValue.toUpperCase().contains(value.toUpperCase()))
+                return true;
+        }
+        return false;
     }
 
     /**
@@ -124,5 +149,4 @@ public class JobData {
             e.printStackTrace();
         }
     }
-
 }
